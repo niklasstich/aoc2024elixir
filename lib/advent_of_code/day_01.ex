@@ -1,10 +1,10 @@
 defmodule AdventOfCode.Day01 do
   defp parallel_map(list, fun) do
     list
-    |> Enum.chunk_every(100)  # Split the list into smaller chunks for better parallelism
-    |> Enum.map(&Task.async(fn -> Enum.map(&1, fun) end))  # Process each chunk in parallel
-    |> Enum.map(&Task.await(&1, :infinity))  # Await the results of each task
-    |> List.flatten()  # Flatten the results
+    |> Enum.chunk_every(100)
+    |> Enum.map(&Task.async(fn -> Enum.map(&1, fun) end))
+    |> Task.await_many()
+    |> List.flatten()
   end
 
   def parse_line(line) do
