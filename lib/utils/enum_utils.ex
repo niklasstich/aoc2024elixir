@@ -1,4 +1,4 @@
-defmodule Utils.EnumUtils do
+defmodule Utils.Enum do
   def except_first([], _value), do: []
   def except_first([value | tail], value), do: tail
   def except_first([head | tail], value) do
