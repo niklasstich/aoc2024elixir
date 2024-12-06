@@ -2,8 +2,8 @@ defmodule Utils.Vector do
 
   def flip({x,y}), do: {x*-1,y*-1}
 
-  def x_part({x,y}), do: x
-  def y_part({x,y}), do: y
+  def x_part({x,_}), do: x
+  def y_part({_,y}), do: y
 
   def rotate_90deg({x,y}), do: rotate({x,y}, :math.pi/2)
   def rotate_90deg_ccw({x,y}), do: rotate({x,y}, -90)
