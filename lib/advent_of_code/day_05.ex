@@ -58,6 +58,6 @@ defmodule AdventOfCode.Day05 do
     {rules, prints} = parse(args)
     rules = generate_rule_map(rules)
     prints |> Enum.map(fn str -> String.split(str, ",") |> Enum.map(& String.to_integer(&1)) end) |> Enum.filter(& !is_row_valid?(&1, rules))
-      |> Enum.reduce(& middle_in_correct_order(&1, rules)) |> Enum.sum()
+      |> Enum.map(& middle_in_correct_order(&1, rules)) |> Enum.sum()
   end
 end
