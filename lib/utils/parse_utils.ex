@@ -10,7 +10,7 @@ defmodule Utils.Parse do
     padding_list ++ Enum.map(lines, & "#{String.duplicate(padding_char, padding)}#{&1}#{String.duplicate(padding_char, padding)}") ++ padding_list
   end
   def to_padded_2dmap(lines, padding \\ 1, padding_char \\ ".") do
-    lines = pad_input(lines, padding, padding_char)
+    lines = if padding > 0, do: pad_input(lines, padding, padding_char), else: lines
     lines |> Enum.with_index() |> Enum.reduce(%{}, fn {line, linenum}, acc ->
       line_to_2dmap_values({line, linenum}, acc)
     end)
@@ -23,24 +23,15 @@ defmodule Utils.Parse do
   end
 
   def to_string_2d(map) do
-    # Get all the coordinates
-    coords = Map.keys(map)
+    {max_x, _} = Enum.max_by(map, fn {{x, _}, _} -> x end) |> elem(0)
+    {_, max_y} = Enum.max_by(map, fn {{_, y}, _} -> y end) |> elem(0)
 
-    # Find the boundaries of the map
-    {min_x, max_x} = coords |> Enum.map(&elem(&1, 0)) |> Enum.min_max()
-    {min_y, max_y} = coords |> Enum.map(&elem(&1, 1)) |> Enum.min_max()
-
-    # Generate rows by iterating over y-axis
-    min_y..max_y
-    |> Enum.map(fn y ->
-      # For each row (y), generate its columns (x)
-      min_x..max_x
-      |> Enum.map(fn x ->
-        {val, _dir} = Map.get(map, {x, y}, " ") # Default to " " if the coordinate is missing
-        val
-      end)
-      |> Enum.join("") # Join the row into a string
-    end)
-    |> Enum.join("\n") # Join all rows with newline characters
+    for y <- 0..max_y do
+      for x <- 0..max_x do
+        Map.get(map, {x, y}, " ")
+      end
+      |> Enum.join("")
+    end
+    |> Enum.join("\n")
   end
 end

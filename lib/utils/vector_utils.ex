@@ -14,4 +14,5 @@ defmodule Utils.Vector do
   end
 
   def vector_add_int({x1,y1}, {x2, y2}), do: {x1+x2,y1+y2}
+  def get_vector({x1,y1}, {x2, y2}), do: {x2-x1,y2-y1}
 end
