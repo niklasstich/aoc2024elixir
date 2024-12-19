@@ -2,10 +2,12 @@ defmodule Mix.Tasks.D09.P1 do
   use Mix.Task
 
   import AdventOfCode.Day09
+  import AdventOfCode.Input
 
   @shortdoc "Day 09 Part 1"
   def run(args) do
-    input = nil
+    input = get!(9)
+    # input = "2333133121414131402"
 
     if Enum.member?(args, "-b"),
       do: Benchee.run(%{part_1: fn -> input |> part1() end}),
