@@ -14,4 +14,12 @@ defmodule Utils.Enum do
   def reduce_while_with_rest(enum, acc, func) do
     enum |> Enum.with_index() |> Enum.reduce_while(acc, fn {val, i}, acc -> func.(val, acc, Enum.drop(enum, i+1)) end)
   end
+
+  def put_between(map, k, v) do
+    {left, right} = Enum.split(map, k)
+    left
+    |> Enum.into(%{})
+    |> Map.put(k, v)
+    |> Map.merge(Enum.into(Enum.map(right, fn {key, value} -> {key + 1, value} end), %{}))
+  end
 end
